@@ -20,12 +20,11 @@ class TaskViewModel extends ChangeNotifier {
 
   Future<void> createTask({required TaskModel newTask}) async {
     await _createTaskUseCase.execute(newTask: newTask);
-    readTaskList();
   }
 
-  Future<void> readTaskList() async {
+  Future<List<TaskModel>> readTaskList() async {
     _tasks = await _readTaskUseCase.execute();
-    notifyListeners();
+    return _tasks;
   }
 
 }

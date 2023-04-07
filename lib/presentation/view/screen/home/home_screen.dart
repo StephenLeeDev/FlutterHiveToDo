@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_hive/data/model/task_model.dart';
 import 'package:todo_hive/domain/local/repository/hive_repository.dart';
 import 'package:todo_hive/presentation/view/widget/home/task_widget.dart';
+import 'package:todo_hive/presentation/viewmodel/task_viewmodel/task_viewmodel.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -11,7 +13,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  Future<void> _showMyDialog() async {
+  Future<void> _showMyDialog(Function(String) createTask) async {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
@@ -19,8 +21,8 @@ class _HomeScreenState extends State<HomeScreen> {
           title: const Text('New Task'),
           content: TextField(
             autofocus: true,
-            onSubmitted: (String text) {
-              HiveRepositoryImpl().create(newTask: TaskModel(title: text));
+            onSubmitted: (String title) {
+              createTask(title);
               setState(() {});
               Navigator.of(context).pop();
             },
@@ -33,8 +35,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final taskViewModel = Provider.of<TaskViewModel>(context);
     return FutureBuilder<List<TaskModel>>(
-      future: HiveRepositoryImpl().read(),
+      future: taskViewModel.readTaskList(),
       builder: (context, snapshot) {
         List<TaskModel> tasks = snapshot.data ?? [];
 
@@ -42,7 +45,9 @@ class _HomeScreenState extends State<HomeScreen> {
           appBar: AppBar(title: const Text('To do')),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              _showMyDialog();
+              _showMyDialog((title) {
+                taskViewModel.createTask(newTask: TaskModel(title: title));
+              });
             },
           ),
           body: ReorderableListView(
@@ -58,10 +63,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: TaskWidget(
                     task: tasks[index],
-                    onDeleted: () {
-                      setState(() {
-                        HiveRepositoryImpl().delete(index: index);
-                      });
+                    onDeleted: () async {
+                      await HiveRepositoryImpl().delete(index: index);
+                      setState(() {});
                     },
                   ),
                 )
