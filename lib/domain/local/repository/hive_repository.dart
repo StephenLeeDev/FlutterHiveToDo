@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:todo_hive/data/model/task_model.dart';
+import 'package:todo_hive/presentation/util/log/log_util.dart';
 
 const String TASK_BOX = 'TASK_BOX';
 
@@ -31,9 +32,7 @@ class HiveRepositoryImpl extends HiveRepository {
 
   @override
   Future create({required TaskModel newTask}) async {
-    if (kDebugMode) {
-      print("create function has ran");
-    }
+    printOnDebug("create function has ran with new task ${newTask.toString()}");
     return await taskBox?.add(newTask);
   }
 
@@ -41,32 +40,29 @@ class HiveRepositoryImpl extends HiveRepository {
   Future<List<TaskModel>> read() async {
     List<TaskModel> list = taskBox?.values.toList() ?? [];
     if (kDebugMode) {
-      print("read function has ran");
+      for (var index = 0; index < list.length; index++) {
+        printOnDebug("$index : ${list[index].toString()}, key : ${list[index].key}");
+      }
     }
     return list;
   }
 
   @override
-  Future update(int index, TaskModel updatedTask) async {
-    if (kDebugMode) {
-      print("update function has ran");
-    }
+  Future update({required int index, required TaskModel updatedTask}) async {
+    printOnDebug("update function has ran with index : $index");
     await taskBox?.putAt(index, updatedTask);
   }
 
   @override
-  Future delete({required int index}) async {
-    if (kDebugMode) {
-      print("delete function has ran");
-    }
-    await taskBox?.delete(index);
+  Future delete({required int key}) async {
+    printOnDebug("delete function has ran with key : $key");
+    printOnDebug("taskBox.isNull : ${taskBox == null}");
+    await taskBox?.delete(key);
   }
 
   @override
   Future reorder({required int oldIndex, required int newIndex}) async {
-    if (kDebugMode) {
-      print("reorder function has ran");
-    }
+    printOnDebug("reorder function has ran with reordered index : $oldIndex => $newIndex");
     List<TaskModel> newList = taskBox?.values.toList() ?? [];
 
     final TaskModel task = newList.removeAt(oldIndex);
