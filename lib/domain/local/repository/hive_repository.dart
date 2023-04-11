@@ -39,6 +39,7 @@ class HiveRepositoryImpl extends HiveRepository {
   @override
   Future<List<TaskModel>> read() async {
     List<TaskModel> list = taskBox?.values.toList() ?? [];
+    printOnDebug("read function has ran");
     if (kDebugMode) {
       for (var index = 0; index < list.length; index++) {
         printOnDebug("$index : ${list[index].toString()}, key : ${list[index].key}");
