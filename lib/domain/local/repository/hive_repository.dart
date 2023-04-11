@@ -9,8 +9,8 @@ abstract class HiveRepository {
   Future openBox();
   Future create({required TaskModel newTask});
   Future<List<TaskModel>> read();
-  Future update(int index, TaskModel updatedTask);
-  Future delete({required int index});
+  Future update({required int index, required TaskModel updatedTask});
+  Future delete({required int key});
   Future reorder({required int oldIndex, required int newIndex});
 }
 
