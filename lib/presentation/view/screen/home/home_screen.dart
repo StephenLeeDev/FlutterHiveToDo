@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_hive/data/model/task_model.dart';
-import 'package:todo_hive/domain/local/repository/hive_repository.dart';
 import 'package:todo_hive/presentation/view/widget/home/task_widget.dart';
 import 'package:todo_hive/presentation/viewmodel/task_viewmodel/task_viewmodel.dart';
 
@@ -23,7 +22,6 @@ class _HomeScreenState extends State<HomeScreen> {
             autofocus: true,
             onSubmitted: (String title) {
               createTask(title);
-              setState(() {});
               Navigator.of(context).pop();
             },
             textInputAction: TextInputAction.done,
@@ -34,27 +32,36 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final taskViewModel = Provider.of<TaskViewModel>(context);
-    return FutureBuilder<List<TaskModel>>(
-      future: taskViewModel.readTaskList(),
-      builder: (context, snapshot) {
-        List<TaskModel> tasks = snapshot.data ?? [];
+  void initState() {
+    super.initState();
+    context.read<TaskViewModel>().readTaskList();
+  }
 
-        return Scaffold(
-          appBar: AppBar(title: const Text('To do')),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              _showMyDialog((title) {
-                taskViewModel.createTask(newTask: TaskModel(title: title));
-              });
-            },
-          ),
-          body: ReorderableListView(
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('To do')),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _showMyDialog((title) {
+            context
+                .read<TaskViewModel>()
+                .createTask(newTask: TaskModel(title: title));
+          });
+        },
+        child: const Icon(Icons.add),
+      ),
+      body: Selector<TaskViewModel, List<TaskModel>>(
+        selector: (_, viewModel) => viewModel.taskList,
+        builder: (context, tasks, _) {
+          return ReorderableListView(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             proxyDecorator:
                 (Widget child, int index, Animation<double> animation) {
-              return TaskWidget(task: tasks[index], onDeleted: () {});
+              return TaskWidget(
+                index: index,
+                taskModel: tasks[index],
+              );
             },
             children: <Widget>[
               for (int index = 0; index < tasks.length; index += 1)
@@ -62,25 +69,23 @@ class _HomeScreenState extends State<HomeScreen> {
                   key: Key('$index'),
                   padding: const EdgeInsets.all(8.0),
                   child: TaskWidget(
-                    task: tasks[index],
-                    onDeleted: () async {
-                      await HiveRepositoryImpl().delete(index: index);
-                      setState(() {});
-                    },
+                    index: index,
+                    taskModel: tasks[index],
                   ),
                 )
             ],
             onReorder: (int oldIndex, int newIndex) async {
-
               if (oldIndex < newIndex) {
                 newIndex -= 1;
               }
-              await HiveRepositoryImpl().reorder(oldIndex: oldIndex, newIndex: newIndex);
-              setState(() {});
+              context.read<TaskViewModel>().setTaskList(
+                  newList: await context
+                      .read<TaskViewModel>()
+                      .reorderTask(oldIndex: oldIndex, newIndex: newIndex));
             },
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
