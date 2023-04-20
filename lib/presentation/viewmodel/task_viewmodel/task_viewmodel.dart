@@ -3,11 +3,13 @@ import 'package:todo_hive/data/model/task_model.dart';
 import 'package:todo_hive/domain/local/usecase/create_task_usecase.dart';
 import 'package:todo_hive/domain/local/usecase/delete_task_usecase.dart';
 import 'package:todo_hive/domain/local/usecase/read_task_usecase.dart';
+import 'package:todo_hive/domain/local/usecase/reorder_task_usecase.dart';
 
 class TaskViewModel extends ChangeNotifier {
   final CreateTaskUseCase _createTaskUseCase;
   final ReadTaskUseCase _readTaskUseCase;
   final DeleteTaskUseCase _deleteTaskUseCase;
+  final ReorderTaskUseCase _reorderTaskUseCase;
 
   List<TaskModel> _taskList = [];
 
@@ -17,9 +19,11 @@ class TaskViewModel extends ChangeNotifier {
     required CreateTaskUseCase createTaskUseCase,
     required ReadTaskUseCase readTaskUseCase,
     required DeleteTaskUseCase deleteTaskUseCase,
+    required ReorderTaskUseCase reorderTaskUseCase,
   })  : _createTaskUseCase = createTaskUseCase,
         _readTaskUseCase = readTaskUseCase,
-        _deleteTaskUseCase = deleteTaskUseCase;
+        _deleteTaskUseCase = deleteTaskUseCase,
+        _reorderTaskUseCase = reorderTaskUseCase;
 
   Future<void> createTask({required TaskModel newTask}) async {
     await _createTaskUseCase.execute(newTask: newTask);
@@ -50,6 +54,10 @@ class TaskViewModel extends ChangeNotifier {
     var newList = taskList.toList();
     if (newList.length - 1 >= index) newList.removeAt(index);
     setTaskList(newList: newList);
+  }
+
+  Future<List<TaskModel>> reorderTask({required int oldIndex, required int newIndex}) async {
+    return await _reorderTaskUseCase.execute(oldIndex: oldIndex, newIndex: newIndex);
   }
 
 }

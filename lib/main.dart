@@ -6,6 +6,7 @@ import 'package:todo_hive/domain/local/repository/hive_repository.dart';
 import 'package:todo_hive/domain/local/usecase/create_task_usecase.dart';
 import 'package:todo_hive/domain/local/usecase/delete_task_usecase.dart';
 import 'package:todo_hive/domain/local/usecase/read_task_usecase.dart';
+import 'package:todo_hive/domain/local/usecase/reorder_task_usecase.dart';
 import 'package:todo_hive/domain/local/usecase/update_task_usecase.dart';
 import 'package:todo_hive/presentation/view/screen/home/home_screen.dart';
 import 'package:todo_hive/presentation/viewmodel/update/task_update_viewmodel.dart';
@@ -21,6 +22,7 @@ void main() async {
   final createTaskUseCase = CreateTaskUseCase(hiveRepository: hiveRepository);
   final updateTaskUseCase = UpdateTaskUseCase(hiveRepository: hiveRepository);
   final deleteTaskUseCase = DeleteTaskUseCase(hiveRepository: hiveRepository);
+  final reorderTaskUseCase = ReorderTaskUseCase(hiveRepository: hiveRepository);
 
   runApp(
     MultiProvider(
@@ -30,6 +32,7 @@ void main() async {
             createTaskUseCase: createTaskUseCase,
             readTaskUseCase: readTaskUseCase,
             deleteTaskUseCase: deleteTaskUseCase,
+            reorderTaskUseCase: reorderTaskUseCase,
           ),
         ),
         ChangeNotifierProvider<TaskUpdateViewModel>(
