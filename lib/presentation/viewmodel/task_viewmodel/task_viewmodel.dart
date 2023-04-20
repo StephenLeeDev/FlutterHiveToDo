@@ -9,9 +9,9 @@ class TaskViewModel extends ChangeNotifier {
   final ReadTaskUseCase _readTaskUseCase;
   final DeleteTaskUseCase _deleteTaskUseCase;
 
-  List<TaskModel> _tasks = [];
+  List<TaskModel> _taskList = [];
 
-  List<TaskModel> get tasks => _tasks;
+  List<TaskModel> get taskList => _taskList;
 
   TaskViewModel({
     required CreateTaskUseCase createTaskUseCase,
@@ -23,19 +23,33 @@ class TaskViewModel extends ChangeNotifier {
 
   Future<void> createTask({required TaskModel newTask}) async {
     await _createTaskUseCase.execute(newTask: newTask);
+    addTaskToTaskList(newTask: newTask);
   }
 
-  Future<List<TaskModel>> readTaskList() async {
-    _tasks = await _readTaskUseCase.execute();
-    return _tasks;
+  void addTaskToTaskList({required TaskModel newTask}) {
+    setTaskList(newList: [...taskList, newTask]);
+  }
+
+  void setTaskList({required List<TaskModel> newList}) {
+    _taskList = newList;
+    notifyListeners();
+  }
+
+  Future readTaskList() async {
+    setTaskList(newList: await _readTaskUseCase.execute());
   }
 
   void setUpdatedTask({required index, required updatedTask}) {
-    _tasks.where((task) => task.key == updatedTask);
+    var newList = taskList.toList();
+    newList[index] = updatedTask;
+    setTaskList(newList: newList);
   }
 
-  Future<void> deleteTask({required int key}) async {
+  Future<void> deleteTask({required int index, required int key}) async {
     await _deleteTaskUseCase.execute(key: key);
+    var newList = taskList.toList();
+    if (newList.length - 1 >= index) newList.removeAt(index);
+    setTaskList(newList: newList);
   }
 
 }

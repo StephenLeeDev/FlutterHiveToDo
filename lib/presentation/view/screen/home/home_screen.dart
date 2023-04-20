@@ -23,7 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
             autofocus: true,
             onSubmitted: (String title) {
               createTask(title);
-              setState(() {});
               Navigator.of(context).pop();
             },
             textInputAction: TextInputAction.done,
@@ -34,36 +33,35 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final taskViewModel = Provider.of<TaskViewModel>(context);
-    return FutureBuilder<List<TaskModel>>(
-      future: taskViewModel.readTaskList(),
-      builder: (context, snapshot) {
-        List<TaskModel> tasks = snapshot.data ?? [];
+  void initState() {
+    super.initState();
+    context.read<TaskViewModel>().readTaskList();
+  }
 
-        return Scaffold(
-          appBar: AppBar(title: const Text('To do')),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              _showMyDialog((title) {
-                taskViewModel.createTask(newTask: TaskModel(title: title));
-              });
-            },
-          ),
-          body: ReorderableListView(
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('To do')),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _showMyDialog((title) {
+            context
+                .read<TaskViewModel>()
+                .createTask(newTask: TaskModel(title: title));
+          });
+        },
+        child: const Icon(Icons.add),
+      ),
+      body: Selector<TaskViewModel, List<TaskModel>>(
+        selector: (_, viewModel) => viewModel.taskList,
+        builder: (context, tasks, _) {
+          return ReorderableListView(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             proxyDecorator:
                 (Widget child, int index, Animation<double> animation) {
               return TaskWidget(
                 index: index,
-                task: tasks[index],
-                onDeleted: () async {
-                  await taskViewModel.deleteTask(key: tasks[index].key);
-                  setState(() {});
-                },
-                onUpdated: () {
-                  setState(() {});
-                },
+                taskModel: tasks[index],
               );
             },
             children: <Widget>[
@@ -73,14 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: TaskWidget(
                     index: index,
-                    task: tasks[index],
-                    onDeleted: () async {
-                      await taskViewModel.deleteTask(key: tasks[index].key);
-                      setState(() {});
-                    },
-                    onUpdated: () {
-                      setState(() {});
-                    },
+                    taskModel: tasks[index],
                   ),
                 )
             ],
@@ -88,13 +79,13 @@ class _HomeScreenState extends State<HomeScreen> {
               if (oldIndex < newIndex) {
                 newIndex -= 1;
               }
-              await HiveRepositoryImpl()
-                  .reorder(oldIndex: oldIndex, newIndex: newIndex);
-              setState(() {});
+              context.read<TaskViewModel>().setTaskList(
+                  newList: await HiveRepositoryImpl()
+                      .reorder(oldIndex: oldIndex, newIndex: newIndex));
             },
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

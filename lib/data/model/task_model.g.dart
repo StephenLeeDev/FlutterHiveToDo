@@ -18,7 +18,7 @@ class TaskModelAdapter extends TypeAdapter<TaskModel> {
     };
     return TaskModel(
       title: fields[0] as String,
-      finished: fields[1] as bool,
+      isFinished: fields[1] as bool,
     );
   }
 
@@ -29,7 +29,7 @@ class TaskModelAdapter extends TypeAdapter<TaskModel> {
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
-      ..write(obj.finished);
+      ..write(obj.isFinished);
   }
 
   @override

@@ -62,7 +62,7 @@ class HiveRepositoryImpl extends HiveRepository {
   }
 
   @override
-  Future reorder({required int oldIndex, required int newIndex}) async {
+  Future<List<TaskModel>> reorder({required int oldIndex, required int newIndex}) async {
     printOnDebug("reorder function has ran with reordered index : $oldIndex => $newIndex");
     List<TaskModel> newList = taskBox?.values.toList() ?? [];
 
@@ -72,7 +72,7 @@ class HiveRepositoryImpl extends HiveRepository {
     await taskBox?.clear();
     await taskBox?.addAll(newList);
 
-    return;
+    return newList;
   }
 
 }
