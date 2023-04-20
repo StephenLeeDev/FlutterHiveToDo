@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_hive/domain/local/repository/hive_repository.dart';
 import 'package:todo_hive/data/model/task_model.dart';
+import 'package:todo_hive/domain/local/repository/hive_repository.dart';
 import 'package:todo_hive/domain/local/usecase/create_task_usecase.dart';
 import 'package:todo_hive/domain/local/usecase/delete_task_usecase.dart';
 import 'package:todo_hive/domain/local/usecase/read_task_usecase.dart';
+import 'package:todo_hive/domain/local/usecase/update_task_usecase.dart';
 import 'package:todo_hive/presentation/view/screen/home/home_screen.dart';
+import 'package:todo_hive/presentation/viewmodel/task_viewmodel/task_update_viewmodel.dart';
 import 'package:todo_hive/presentation/viewmodel/task_viewmodel/task_viewmodel.dart';
 
 void main() async {
@@ -17,6 +19,7 @@ void main() async {
   final hiveRepository = HiveRepositoryImpl();
   final readTaskUseCase = ReadTaskUseCase(hiveRepository: hiveRepository);
   final createTaskUseCase = CreateTaskUseCase(hiveRepository: hiveRepository);
+  final updateTaskUseCase = UpdateTaskUseCase(hiveRepository: hiveRepository);
   final deleteTaskUseCase = DeleteTaskUseCase(hiveRepository: hiveRepository);
 
   runApp(
@@ -27,6 +30,11 @@ void main() async {
             createTaskUseCase: createTaskUseCase,
             readTaskUseCase: readTaskUseCase,
             deleteTaskUseCase: deleteTaskUseCase,
+          ),
+        ),
+        ChangeNotifierProvider<TaskUpdateViewModel>(
+          create: (context) => TaskUpdateViewModel(
+            updateTaskUseCase: updateTaskUseCase,
           ),
         ),
       ],

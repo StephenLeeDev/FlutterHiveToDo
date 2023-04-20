@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:todo_hive/data/model/task_model.dart';
+import 'package:todo_hive/presentation/view/screen/update/update_task_screen.dart';
 
 class TaskWidget extends StatefulWidget {
   const TaskWidget({
     Key? key,
+    required this.index,
     required this.task,
     required this.onDeleted,
+    required this.onUpdated,
   }) : super(key: key);
 
+  final int index;
   final TaskModel task;
   final Function onDeleted;
+  final Function onUpdated;
 
   @override
   State<TaskWidget> createState() => _TaskWidgetState();
@@ -59,6 +64,24 @@ class _TaskWidgetState extends State<TaskWidget> {
                       : TextDecoration.none,
                 ),
               ),
+            ),
+            IconButton(
+              icon: const Icon(
+                Icons.edit,
+                color: Colors.white,
+              ),
+              onPressed: () async {
+                final isUpdated = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UpdateTaskScreen(
+                        index: widget.index, task: widget.task),
+                  ),
+                );
+                if (isUpdated) {
+                  widget.onUpdated();
+                }
+              },
             ),
             IconButton(
               icon: const Icon(

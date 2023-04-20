@@ -55,11 +55,16 @@ class _HomeScreenState extends State<HomeScreen> {
             proxyDecorator:
                 (Widget child, int index, Animation<double> animation) {
               return TaskWidget(
-                  task: tasks[index],
-                  onDeleted: () async {
-                    await taskViewModel.deleteTask(key: tasks[index].key);
-                    setState(() {});
-                  });
+                index: index,
+                task: tasks[index],
+                onDeleted: () async {
+                  await taskViewModel.deleteTask(key: tasks[index].key);
+                  setState(() {});
+                },
+                onUpdated: () {
+                  setState(() {});
+                },
+              );
             },
             children: <Widget>[
               for (int index = 0; index < tasks.length; index += 1)
@@ -67,20 +72,24 @@ class _HomeScreenState extends State<HomeScreen> {
                   key: Key('$index'),
                   padding: const EdgeInsets.all(8.0),
                   child: TaskWidget(
+                    index: index,
                     task: tasks[index],
                     onDeleted: () async {
                       await taskViewModel.deleteTask(key: tasks[index].key);
+                      setState(() {});
+                    },
+                    onUpdated: () {
                       setState(() {});
                     },
                   ),
                 )
             ],
             onReorder: (int oldIndex, int newIndex) async {
-
               if (oldIndex < newIndex) {
                 newIndex -= 1;
               }
-              await HiveRepositoryImpl().reorder(oldIndex: oldIndex, newIndex: newIndex);
+              await HiveRepositoryImpl()
+                  .reorder(oldIndex: oldIndex, newIndex: newIndex);
               setState(() {});
             },
           ),

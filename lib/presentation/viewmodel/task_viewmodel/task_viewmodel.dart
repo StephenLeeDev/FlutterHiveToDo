@@ -30,6 +30,10 @@ class TaskViewModel extends ChangeNotifier {
     return _tasks;
   }
 
+  void setUpdatedTask({required index, required updatedTask}) {
+    _tasks.where((task) => task.key == updatedTask);
+  }
+
   Future<void> deleteTask({required int key}) async {
     await _deleteTaskUseCase.execute(key: key);
   }
