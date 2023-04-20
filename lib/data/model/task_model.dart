@@ -9,17 +9,17 @@ class TaskModel extends HiveObject {
   @HiveField(1)
   String description;
   @HiveField(2)
-  bool finished;
+  bool isFinished;
 
-  TaskModel({required this.title, this.description = "", this.finished = false});
+  TaskModel({required this.title, this.description = "", this.isFinished = false});
 
   TaskModel copy() {
-    return TaskModel(title: title, description: description, finished: finished);
+    return TaskModel(title: title, description: description, isFinished: isFinished);
   }
 
   @override
   String toString() {
-    return "TaskModel(title: $title, content: $description, finished: $finished)";
+    return "TaskModel(title: $title, content: $description, finished: $isFinished)";
   }
 
   @override
@@ -27,13 +27,13 @@ class TaskModel extends HiveObject {
     if (other is! TaskModel) return false;
     if (title != other.title) return false;
     if (description != other.description) return false;
-    if (finished != other.finished) return false;
+    if (isFinished != other.isFinished) return false;
     return true;
   }
 
   @override
   int get hashCode {
-    return title.hashCode ^ description.hashCode ^ finished.hashCode;
+    return title.hashCode ^ description.hashCode ^ isFinished.hashCode;
   }
 
 }

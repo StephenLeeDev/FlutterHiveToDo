@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_hive/data/model/task_model.dart';
 import 'package:todo_hive/presentation/view/widget/common/button/custom_elevated_button.dart';
-import 'package:todo_hive/presentation/viewmodel/task_viewmodel/task_update_viewmodel.dart';
+import 'package:todo_hive/presentation/viewmodel/update/task_update_viewmodel.dart';
 import 'package:todo_hive/presentation/viewmodel/task_viewmodel/task_viewmodel.dart';
 
 class UpdateTaskScreen extends StatelessWidget {
@@ -14,7 +14,6 @@ class UpdateTaskScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<TaskUpdateViewModel>().setIndex(index: index);
     context.read<TaskUpdateViewModel>().setTask(taskModel: task);
 
     return Scaffold(
@@ -82,9 +81,9 @@ class UpdateTaskScreen extends StatelessWidget {
                 return CustomElevatedButton(
                   onPressed: () {
                     if (isValidForUpdate) {
-                      context.read<TaskUpdateViewModel>().updateTask();
+                      context.read<TaskUpdateViewModel>().updateTask(index: index);
                       context.read<TaskViewModel>().setUpdatedTask(
-                          index: context.read<TaskUpdateViewModel>().index,
+                          index: index,
                           updatedTask:
                               context.read<TaskUpdateViewModel>().taskModel);
                       Navigator.pop(context, true);
