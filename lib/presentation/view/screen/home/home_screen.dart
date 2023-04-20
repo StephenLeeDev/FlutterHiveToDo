@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_hive/data/model/task_model.dart';
-import 'package:todo_hive/domain/local/repository/hive_repository.dart';
 import 'package:todo_hive/presentation/view/widget/home/task_widget.dart';
 import 'package:todo_hive/presentation/viewmodel/task_viewmodel/task_viewmodel.dart';
 
@@ -80,8 +79,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 newIndex -= 1;
               }
               context.read<TaskViewModel>().setTaskList(
-                  newList: await HiveRepositoryImpl()
-                      .reorder(oldIndex: oldIndex, newIndex: newIndex));
+                  newList: await context
+                      .read<TaskViewModel>()
+                      .reorderTask(oldIndex: oldIndex, newIndex: newIndex));
             },
           );
         },
