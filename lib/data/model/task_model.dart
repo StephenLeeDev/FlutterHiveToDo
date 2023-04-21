@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 
 part 'task_model.g.dart';
 
-@HiveType(typeId: 1)
+@HiveType(typeId: 3)
 class TaskModel extends HiveObject {
   @HiveField(0)
   String title;
@@ -19,7 +19,7 @@ class TaskModel extends HiveObject {
 
   @override
   String toString() {
-    return "TaskModel(title: $title, content: $description, finished: $isFinished)";
+    return "TaskModel(title: $title, description: $description, isFinished: $isFinished)";
   }
 
   @override

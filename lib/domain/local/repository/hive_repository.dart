@@ -51,6 +51,7 @@ class HiveRepositoryImpl extends HiveRepository {
   @override
   Future update({required int index, required TaskModel updatedTask}) async {
     printOnDebug("update function has ran with index : $index");
+    printOnDebug("updated TaskModel : ${updatedTask.toString()}");
     await taskBox?.putAt(index, updatedTask);
   }
 

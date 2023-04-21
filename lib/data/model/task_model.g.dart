@@ -8,7 +8,7 @@ part of 'task_model.dart';
 
 class TaskModelAdapter extends TypeAdapter<TaskModel> {
   @override
-  final int typeId = 0;
+  final int typeId = 2;
 
   @override
   TaskModel read(BinaryReader reader) {
@@ -18,17 +18,20 @@ class TaskModelAdapter extends TypeAdapter<TaskModel> {
     };
     return TaskModel(
       title: fields[0] as String,
-      isFinished: fields[1] as bool,
+      description: fields[1] as String,
+      isFinished: fields[2] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, TaskModel obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
+      ..write(obj.description)
+      ..writeByte(2)
       ..write(obj.isFinished);
   }
 
