@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
-import 'package:todo_hive/data/model/task_model.dart';
+import 'package:todo_hive/data/model/task/task_model.dart';
 import 'package:todo_hive/presentation/util/log/log_util.dart';
 
 const String TASK_BOX = 'TASK_BOX';

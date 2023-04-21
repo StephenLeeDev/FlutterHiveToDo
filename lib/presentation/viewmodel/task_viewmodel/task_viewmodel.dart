@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
-import 'package:todo_hive/data/model/task_model.dart';
-import 'package:todo_hive/domain/local/usecase/create_task_usecase.dart';
-import 'package:todo_hive/domain/local/usecase/delete_task_usecase.dart';
-import 'package:todo_hive/domain/local/usecase/read_task_usecase.dart';
-import 'package:todo_hive/domain/local/usecase/reorder_task_usecase.dart';
+import 'package:todo_hive/data/model/task/task_model.dart';
+import 'package:todo_hive/domain/usecase/task/create_task_usecase.dart';
+import 'package:todo_hive/domain/usecase/task/delete_task_usecase.dart';
+import 'package:todo_hive/domain/usecase/task/read_task_usecase.dart';
+import 'package:todo_hive/domain/usecase/task/reorder_task_usecase.dart';
 
 class TaskViewModel extends ChangeNotifier {
   final CreateTaskUseCase _createTaskUseCase;

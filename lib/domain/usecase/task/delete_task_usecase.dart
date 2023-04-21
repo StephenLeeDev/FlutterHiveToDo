@@ -1,4 +1,4 @@
-import 'package:todo_hive/domain/local/repository/hive_repository.dart';
+import 'package:todo_hive/data/repository/local/hive_repository.dart';
 
 class DeleteTaskUseCase {
   final HiveRepository _hiveRepository;

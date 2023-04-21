@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_hive/data/model/task_model.dart';
+import 'package:todo_hive/data/model/task/task_model.dart';
 import 'package:todo_hive/presentation/view/widget/common/button/custom_elevated_button.dart';
 import 'package:todo_hive/presentation/viewmodel/update/task_update_viewmodel.dart';
 import 'package:todo_hive/presentation/viewmodel/task_viewmodel/task_viewmodel.dart';
