@@ -5,7 +5,7 @@ import 'package:todo_hive/domain/local/usecase/delete_task_usecase.dart';
 import 'package:todo_hive/domain/local/usecase/read_task_usecase.dart';
 import 'package:todo_hive/domain/local/usecase/reorder_task_usecase.dart';
 
-class TaskViewModel extends ChangeNotifier {
+class TaskListViewModel extends ChangeNotifier {
   final CreateTaskUseCase _createTaskUseCase;
   final ReadTaskUseCase _readTaskUseCase;
   final DeleteTaskUseCase _deleteTaskUseCase;
@@ -15,7 +15,7 @@ class TaskViewModel extends ChangeNotifier {
 
   List<TaskModel> get taskList => _taskList;
 
-  TaskViewModel({
+  TaskListViewModel({
     required CreateTaskUseCase createTaskUseCase,
     required ReadTaskUseCase readTaskUseCase,
     required DeleteTaskUseCase deleteTaskUseCase,
