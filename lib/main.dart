@@ -9,8 +9,8 @@ import 'package:todo_hive/domain/usecase/task/read_task_usecase.dart';
 import 'package:todo_hive/domain/usecase/task/reorder_task_usecase.dart';
 import 'package:todo_hive/domain/usecase/task/update_task_usecase.dart';
 import 'package:todo_hive/presentation/router/router.dart';
-import 'package:todo_hive/presentation/viewmodel/update/task_update_viewmodel.dart';
-import 'package:todo_hive/presentation/viewmodel/task_viewmodel/task_viewmodel.dart';
+import 'package:todo_hive/presentation/viewmodel/task/update/task_update_viewmodel.dart';
+import 'package:todo_hive/presentation/viewmodel/task/list/task_list_viewmodel.dart';
 
 void main() async {
   await Hive.initFlutter();
@@ -27,8 +27,8 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider<TaskViewModel>(
-          create: (context) => TaskViewModel(
+        ChangeNotifierProvider<TaskListViewModel>(
+          create: (context) => TaskListViewModel(
             createTaskUseCase: createTaskUseCase,
             readTaskUseCase: readTaskUseCase,
             deleteTaskUseCase: deleteTaskUseCase,
