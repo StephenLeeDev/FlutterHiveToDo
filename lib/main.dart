@@ -8,7 +8,7 @@ import 'package:todo_hive/domain/usecase/task/delete_task_usecase.dart';
 import 'package:todo_hive/domain/usecase/task/read_task_usecase.dart';
 import 'package:todo_hive/domain/usecase/task/reorder_task_usecase.dart';
 import 'package:todo_hive/domain/usecase/task/update_task_usecase.dart';
-import 'package:todo_hive/presentation/view/screen/task/home/home_screen.dart';
+import 'package:todo_hive/presentation/router/router.dart';
 import 'package:todo_hive/presentation/viewmodel/update/task_update_viewmodel.dart';
 import 'package:todo_hive/presentation/viewmodel/task_viewmodel/task_viewmodel.dart';
 
@@ -51,8 +51,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: HomeScreen(),
+    return MaterialApp.router(
+      routerConfig: router
     );
   }
 }
