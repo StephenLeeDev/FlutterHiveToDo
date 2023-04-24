@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_hive/data/model/task_model.dart';
-import 'package:todo_hive/domain/local/repository/hive_repository.dart';
-import 'package:todo_hive/domain/local/usecase/create_task_usecase.dart';
-import 'package:todo_hive/domain/local/usecase/delete_task_usecase.dart';
-import 'package:todo_hive/domain/local/usecase/read_task_usecase.dart';
-import 'package:todo_hive/domain/local/usecase/reorder_task_usecase.dart';
-import 'package:todo_hive/domain/local/usecase/update_task_usecase.dart';
-import 'package:todo_hive/presentation/view/screen/home/home_screen.dart';
+import 'package:todo_hive/data/model/task/task_model.dart';
+import 'package:todo_hive/data/repository/local/hive_repository.dart';
+import 'package:todo_hive/domain/usecase/task/create_task_usecase.dart';
+import 'package:todo_hive/domain/usecase/task/delete_task_usecase.dart';
+import 'package:todo_hive/domain/usecase/task/read_task_usecase.dart';
+import 'package:todo_hive/domain/usecase/task/reorder_task_usecase.dart';
+import 'package:todo_hive/domain/usecase/task/update_task_usecase.dart';
+import 'package:todo_hive/presentation/router/router.dart';
 import 'package:todo_hive/presentation/viewmodel/update/task_update_viewmodel.dart';
 import 'package:todo_hive/presentation/viewmodel/task_viewmodel/task_viewmodel.dart';
 
@@ -51,8 +51,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: HomeScreen(),
+    return MaterialApp.router(
+      routerConfig: router
     );
   }
 }
