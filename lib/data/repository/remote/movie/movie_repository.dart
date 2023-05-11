@@ -1,7 +1,7 @@
-import 'package:todo_hive/data/model/movie/movie_list_data.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:todo_hive/data/model/movie/movie_list_data.dart';
 import 'package:todo_hive/data/model/movie/movie_list_response.dart';
-import 'package:todo_hive/presentation/util/log/log_util.dart';
 
 abstract class MovieRepository {
   Future<MovieListData?> getMovieListByPageAndPerPage({required int page, required int perPage});
@@ -19,8 +19,9 @@ class MovieRepositoryImpl extends MovieRepository {
     if (response.statusCode == 200) {
       final MovieListResponse movieListResponse = MovieListResponse.fromJson(response.data);
 
-      printOnDebug('url : $url');
-      printOnDebug('response : ${response.data}');
+      debugPrint('url : $url');
+      debugPrint('response : ${response.data}');
+      debugPrint("");
 
       return movieListResponse.data;
     }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:todo_hive/presentation/view/screen/chat/chat_screen.dart';
 import 'package:todo_hive/presentation/view/screen/movie/movie_screen.dart';
 import 'package:todo_hive/presentation/view/screen/task/home/home_screen.dart';
 import 'package:todo_hive/presentation/view/widget/navigation/bottom_navigation_tab.dart';
@@ -19,6 +20,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   final List<String> _tabs = [
     "home",
     "movie",
+    "chat",
   ];
 
   late int _selectedIndex = _tabs.indexOf(widget.tab);
@@ -43,6 +45,10 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             offstage: _selectedIndex != 1,
             child: const MovieScreen(),
           ),
+          Offstage(
+            offstage: _selectedIndex != 2,
+            child: const ChatScreen(),
+          ),
         ],
       ),
       bottomNavigationBar: Padding(
@@ -63,6 +69,13 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               isSelected: _selectedIndex == 1,
               icon: Icons.local_movies_rounded,
               onTap: () => _onTap(1),
+              selectedIndex: _selectedIndex,
+            ),
+            NavTab(
+              text: "Chat",
+              isSelected: _selectedIndex == 2,
+              icon: Icons.chat,
+              onTap: () => _onTap(2),
               selectedIndex: _selectedIndex,
             ),
           ],
