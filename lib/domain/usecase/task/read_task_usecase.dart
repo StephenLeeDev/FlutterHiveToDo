@@ -1,5 +1,5 @@
-import 'package:todo_hive/data/model/task_model.dart';
-import 'package:todo_hive/domain/local/repository/hive_repository.dart';
+import 'package:todo_hive/data/model/task/task_model.dart';
+import 'package:todo_hive/data/repository/local/hive_repository.dart';
 
 class ReadTaskUseCase {
   final HiveRepository _hiveRepository;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo_hive/data/model/task_model.dart';
-import 'package:todo_hive/domain/local/usecase/update_task_usecase.dart';
+import 'package:todo_hive/data/model/task/task_model.dart';
+import 'package:todo_hive/domain/usecase/task/update_task_usecase.dart';
 
 /// This ViewModel is for update task screen
 class TaskUpdateViewModel extends ChangeNotifier {

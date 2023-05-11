@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_hive/data/model/task_model.dart';
+import 'package:todo_hive/data/model/task/task_model.dart';
 import 'package:todo_hive/presentation/view/widget/common/button/custom_elevated_button.dart';
-import 'package:todo_hive/presentation/viewmodel/update/task_update_viewmodel.dart';
-import 'package:todo_hive/presentation/viewmodel/task_viewmodel/task_viewmodel.dart';
+import 'package:todo_hive/presentation/viewmodel/task/update/task_update_viewmodel.dart';
+import 'package:todo_hive/presentation/viewmodel/task/list/task_list_viewmodel.dart';
 
 class UpdateTaskScreen extends StatelessWidget {
   const UpdateTaskScreen({Key? key, required this.index, required this.task})
@@ -82,7 +82,7 @@ class UpdateTaskScreen extends StatelessWidget {
                   onPressed: () {
                     if (isValidForUpdate) {
                       context.read<TaskUpdateViewModel>().updateTask(index: index);
-                      context.read<TaskViewModel>().setUpdatedTask(
+                      context.read<TaskListViewModel>().setUpdatedTask(
                           index: index,
                           updatedTask:
                               context.read<TaskUpdateViewModel>().taskModel);

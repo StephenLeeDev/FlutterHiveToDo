@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_hive/data/model/task_model.dart';
-import 'package:todo_hive/presentation/view/screen/update/update_task_screen.dart';
-import 'package:todo_hive/presentation/viewmodel/task_viewmodel/task_viewmodel.dart';
-import 'package:todo_hive/presentation/viewmodel/update/task_update_viewmodel.dart';
+import 'package:todo_hive/data/model/task/task_model.dart';
+import 'package:todo_hive/presentation/view/screen/task/update/update_task_screen.dart';
+import 'package:todo_hive/presentation/viewmodel/task/list/task_list_viewmodel.dart';
+import 'package:todo_hive/presentation/viewmodel/task/update/task_update_viewmodel.dart';
 
 class TaskWidget extends StatelessWidget {
   const TaskWidget({
@@ -21,7 +21,7 @@ class TaskWidget extends StatelessWidget {
     final Color evenItemColor = colorScheme.primary;
 
     return Material(
-      child: Selector<TaskViewModel, TaskModel>(
+      child: Selector<TaskListViewModel, TaskModel>(
         selector: (_, viewModel) => viewModel.taskList[index],
         builder: (context, task, _) {
           var taskItem = task.copy();
@@ -53,7 +53,7 @@ class TaskWidget extends StatelessWidget {
 
                     if (context.mounted) {
                       context
-                          .read<TaskViewModel>()
+                          .read<TaskListViewModel>()
                           .setUpdatedTask(index: index, updatedTask: taskItem);
                     }
                   },
@@ -91,7 +91,7 @@ class TaskWidget extends StatelessWidget {
                     color: Colors.white,
                   ),
                   onPressed: () async => await context
-                      .read<TaskViewModel>()
+                      .read<TaskListViewModel>()
                       .deleteTask(index: index, key: task.key),
                 )
               ],
