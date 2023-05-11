@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_hive/data/model/task/task_model.dart';
 import 'package:todo_hive/presentation/view/widget/task/task_widget.dart';
-import 'package:todo_hive/presentation/viewmodel/task_viewmodel/task_viewmodel.dart';
+import 'package:todo_hive/presentation/viewmodel/task/list/task_list_viewmodel.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<TaskViewModel>().readTaskList();
+    context.read<TaskListViewModel>().readTaskList();
   }
 
   @override
@@ -45,13 +45,13 @@ class _HomeScreenState extends State<HomeScreen> {
         onPressed: () {
           _showMyDialog((title) {
             context
-                .read<TaskViewModel>()
+                .read<TaskListViewModel>()
                 .createTask(newTask: TaskModel(title: title));
           });
         },
         child: const Icon(Icons.add),
       ),
-      body: Selector<TaskViewModel, List<TaskModel>>(
+      body: Selector<TaskListViewModel, List<TaskModel>>(
         selector: (_, viewModel) => viewModel.taskList,
         builder: (context, tasks, _) {
           return ReorderableListView(
@@ -78,9 +78,9 @@ class _HomeScreenState extends State<HomeScreen> {
               if (oldIndex < newIndex) {
                 newIndex -= 1;
               }
-              context.read<TaskViewModel>().setTaskList(
+              context.read<TaskListViewModel>().setTaskList(
                   newList: await context
-                      .read<TaskViewModel>()
+                      .read<TaskListViewModel>()
                       .reorderTask(oldIndex: oldIndex, newIndex: newIndex));
             },
           );
