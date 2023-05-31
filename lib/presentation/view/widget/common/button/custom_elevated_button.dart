@@ -31,7 +31,7 @@ class CustomElevatedButton extends StatelessWidget {
             ? Theme.of(context).primaryColor
             : Theme.of(context).disabledColor,
       ),
-      child: const Text('Update Confirm'),
+      child: Text(text),
     );
   }
 }
